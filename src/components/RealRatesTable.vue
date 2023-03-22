@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form  @submit.prevent>
     <fieldset>
       <legend>Choice Currency</legend>
       <label v-for="name in avialableList" :key="name">
@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="item in showList" :key="item.name">
             <td>{{ item.name }}</td>
-            <td>{{ item.getRateToCurrency(choicedCurrency) }}</td>
+            <td>{{ item.getCrossRateToCurrency(choicedCurrency) }}</td>
           </tr>
         </tbody>
       </table>
@@ -21,30 +21,33 @@
 </template>
 
 <script>
-import currencies, { enumCurrencies } from '@/currency'
+import {enumCurrencies} from '@/currency'
 
 export default {
   name: 'RealRatesTable',
-  data () {
+  data() {
     return {
-      currencies,
+      currencies: this.$store.state.currencies,
       avialableList: [
         enumCurrencies.USD,
         enumCurrencies.EUR,
         enumCurrencies.UAH
       ],
-      showList: [
-        currencies[enumCurrencies.USD],
-        currencies[enumCurrencies.EUR],
-        currencies[enumCurrencies.UAH],
-        currencies[enumCurrencies.BTC],
-        currencies[enumCurrencies.ETH]
-      ],
+      showList: [],
       radioValue: enumCurrencies.USD
     }
   },
+  created () {
+    this.showList = [
+      this.currencies[enumCurrencies.USD],
+      this.currencies[enumCurrencies.EUR],
+      this.currencies[enumCurrencies.UAH],
+      this.currencies[enumCurrencies.BTC],
+      this.currencies[enumCurrencies.ETH]
+    ]
+  },
   computed: {
-    choicedCurrency () {
+    choicedCurrency() {
       if (!this.radioValue) return false
       return this.currencies[this.radioValue]
     }

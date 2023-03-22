@@ -1,9 +1,9 @@
 <template>
-  <form>
+  <form @submit.prevent>
     <div>
       <label>
         Currency
-        <select v-model="firstCurrency">
+        <select v-model="firstCurrencySymbol">
           <option
             v-for="item in currencies"
             :value="item.name"
@@ -24,7 +24,7 @@
         <select v-model="targetCurrency">
           <template v-for="item in currencies">
             <option
-              v-if="item.name !== firstCurrency"
+              v-if="item.name !== firstCurrencySymbol"
               :value="item.name"
               :key="item.name"
             >
@@ -39,33 +39,40 @@
 </template>
 
 <script>
-import currencies, { enumCurrencies } from '@/currency'
+import {enumCurrencies} from '@/currency'
 
 export default {
   name: 'ExchangeForm',
-  data () {
+  data() {
     return {
-      currencies,
-      firstCurrency: enumCurrencies.USD,
+      currencies: this.$store.state.currencies,
+      firstCurrencySymbol: enumCurrencies.USD,
       targetCurrency: '',
       amount: 1,
       maxValue: 10000
     }
   },
+  created() {
+    console.log(this.currencies)
+  },
 
   watch: {
-    firstCurrency (value) {
+    firstCurrencySymbol(value) {
       if (value === this.targetCurrency) this.targetCurrency = ''
     },
-    amount (value, oldValue) {
+    amount(value, oldValue) {
       if (value > this.maxValue) this.amount = oldValue
     }
   },
   computed: {
-    resultValue () {
+    resultValue() {
       const target = this.currencies[this.targetCurrency]
+      const first = this.currencies[this.firstCurrencySymbol]
       if (!target) return 0
-      return target.toUSD * this.amount
+      // const crossRate = target.getCrossRateToCurrency(first)
+      const crossRate = first.getCrossRateToCurrency(target)
+      console.log(crossRate)
+      return (crossRate * this.amount).toFixed(4)
     }
   }
 }
