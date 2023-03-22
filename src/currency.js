@@ -1,19 +1,35 @@
 class Currency {
-  constructor(name) {
+  constructor (name) {
     this.name = name
     this.toUSD = 23
   }
 
-  setRateToUSD(rate) {
+  setRateToUSD (rate) {
     this.toUSD = rate
   }
+
+  getRateToCurrency (cur) {
+    if (!(cur instanceof Currency)) return ''
+    return (cur.toUSD / this.toUSD).toFixed(4)
+  }
 }
-const currenciesList = ['USD', 'EUR', 'UAH', 'GBP', 'BTC', 'ETH', 'BNB', 'XRP']
+export const enumCurrencies = {
+  USD: 'USD',
+  EUR: 'EUR',
+  UAH: 'UAH',
+  GBP: 'GBP',
+  BTC: 'BTC',
+  ETH: 'ETH',
+  BNB: 'BNB',
+  XRP: 'XRP'
+}
 
 const currencies = {}
 
-currenciesList.forEach((name) => {
+Object.keys(enumCurrencies).forEach((key) => {
+  const name = enumCurrencies[key]
   currencies[name] = new Currency(name)
+  currencies[name].toUSD = Math.random()
 })
 
 export default currencies

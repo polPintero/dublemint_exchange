@@ -5,7 +5,7 @@
         Currency
         <select v-model="firstCurrency">
           <option
-            v-for="item in currenciesList"
+            v-for="item in currencies"
             :value="item.name"
             :key="item.name"
           >
@@ -22,7 +22,7 @@
       <label>
         CurrencyTarget
         <select v-model="targetCurrency">
-          <template v-for="item in currenciesList">
+          <template v-for="item in currencies">
             <option
               v-if="item.name !== firstCurrency"
               :value="item.name"
@@ -39,14 +39,14 @@
 </template>
 
 <script>
-import currenciesList from '@/currency'
+import currencies, { enumCurrencies } from '@/currency'
 
 export default {
   name: 'ExchangeForm',
-  data() {
+  data () {
     return {
-      currenciesList,
-      firstCurrency: 'USD',
+      currencies,
+      firstCurrency: enumCurrencies.USD,
       targetCurrency: '',
       amount: 1,
       maxValue: 10000
@@ -54,17 +54,16 @@ export default {
   },
 
   watch: {
-    firstCurrency(value) {
+    firstCurrency (value) {
       if (value === this.targetCurrency) this.targetCurrency = ''
     },
-    amount(value, oldValue) {
+    amount (value, oldValue) {
       if (value > this.maxValue) this.amount = oldValue
     }
   },
   computed: {
-    resultValue() {
-      const target = this.currenciesList[this.targetCurrency]
-      console.log(target)
+    resultValue () {
+      const target = this.currencies[this.targetCurrency]
       if (!target) return 0
       return target.toUSD * this.amount
     }
