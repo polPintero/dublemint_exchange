@@ -1,10 +1,13 @@
 <template>
-  <div>wrt</div>
+  <exchange-form></exchange-form>
 </template>
 
 <script>
+import ExchangeForm from './components/ExchangeForm.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: { ExchangeForm }
 }
 </script>
 
