@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="item in showList" :key="item.name">
             <td>{{ item.name }}</td>
-            <td>{{ item.getCrossRateToCurrency(choicedCurrency) }}</td>
+            <td>{{ item.getCrossRateToCurrency(choicedCurrency) || '-' }}</td>
           </tr>
         </tbody>
       </table>
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import {enumCurrencies} from '@/currency'
+import { enumCurrencies } from '@/currency'
 
 export default {
   name: 'RealRatesTable',
-  data() {
+  data () {
     return {
       currencies: this.$store.state.currencies,
       avialableList: [
@@ -47,7 +47,7 @@ export default {
     ]
   },
   computed: {
-    choicedCurrency() {
+    choicedCurrency () {
       if (!this.radioValue) return false
       return this.currencies[this.radioValue]
     }

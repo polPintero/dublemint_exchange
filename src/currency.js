@@ -1,15 +1,15 @@
 class Currency {
-  constructor(name) {
+  constructor (name) {
     this.name = name
-    this.toUSD = ''
+    this.toUSD = 0
   }
 
-  setRateToUSD(rate) {
+  setRateToUSD (rate) {
     this.toUSD = rate
   }
 
-  getCrossRateToCurrency(cur) {
-    if (!(cur instanceof Currency)) return 0
+  getCrossRateToCurrency (cur) {
+    if (!(cur instanceof Currency) || !cur.toUSD || !this.toUSD) return 0
     return (cur.toUSD / this.toUSD).toFixed(4)
   }
 }
@@ -30,7 +30,6 @@ Object.keys(enumCurrencies).forEach((key) => {
   const name = enumCurrencies[key]
   currencies[name] = new Currency(name)
   if (name === enumCurrencies.USD) currencies[name].toUSD = 1
-  // currencies[name].toUSD = Math.random()
 })
 
 export default currencies

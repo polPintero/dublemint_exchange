@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import {enumCurrencies} from '@/currency'
+import { enumCurrencies } from '@/currency'
 
 export default {
   name: 'ExchangeForm',
-  data() {
+  data () {
     return {
       currencies: this.$store.state.currencies,
       firstCurrencySymbol: enumCurrencies.USD,
@@ -52,27 +52,25 @@ export default {
       maxValue: 10000
     }
   },
-  created() {
+  created () {
     console.log(this.currencies)
   },
 
   watch: {
-    firstCurrencySymbol(value) {
+    firstCurrencySymbol (value) {
       if (value === this.targetCurrency) this.targetCurrency = ''
     },
-    amount(value, oldValue) {
+    amount (value, oldValue) {
       if (value > this.maxValue) this.amount = oldValue
     }
   },
   computed: {
-    resultValue() {
+    resultValue () {
       const target = this.currencies[this.targetCurrency]
       const first = this.currencies[this.firstCurrencySymbol]
-      if (!target) return 0
-      // const crossRate = target.getCrossRateToCurrency(first)
+      if (!target) return '-'
       const crossRate = first.getCrossRateToCurrency(target)
-      console.log(crossRate)
-      return (crossRate * this.amount).toFixed(4)
+      return crossRate ? (crossRate * this.amount).toFixed(4) : '-'
     }
   }
 }
