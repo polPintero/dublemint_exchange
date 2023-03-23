@@ -11,6 +11,7 @@ export default createStore({
     setToUSDRate (state, payload) {
       const elem = state.currencies[payload.name]
       if (!elem) return
+      // elem.toUSD = payload.value
       elem.setRateToUSD(payload.value * Math.random())
     }
   },
@@ -26,6 +27,11 @@ export default createStore({
       Object.keys(result).forEach((name) => {
         commit('setToUSDRate', { name, value: result[name] })
       })
+      // await new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve()
+      //   }, 4000)
+      // })
       return result
     }
   },

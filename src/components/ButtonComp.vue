@@ -1,12 +1,20 @@
 <template>
   <span class="btn__wrap">
-    <button class="btn" :disabled="disabled" :isLoading="isLoading">
+    <button
+      class="btn"
+      :disabled="disabled"
+      :isLoading="isLoading"
+      :class="{'btn__after--padding': $slots.after || isLoading}"
+    >
       {{ label }}
     </button>
+    <div class="btn__icon" v-if="$slots.after">
+      <slot name="after"></slot>
+    </div>
     <IconComp
       v-if="isLoading"
       name="LoaderIconComp"
-      class="btn__icon"
+      class="btn__icon btn__icon--rotate"
     ></IconComp>
   </span>
 </template>
@@ -28,7 +36,7 @@ export default {
     },
     disabled: {
       type: Boolean,
-      default: true
+      default: false
     },
     isLoading: {
       type: Boolean,
@@ -42,6 +50,9 @@ export default {
 .btn {
   &__wrap {
     position: relative;
+  }
+  &__after--padding {
+    padding-right: calc(var(--gap-double) * 2);
   }
   padding: var(--gap) var(--gap-double);
   font-size: 1rem;
@@ -67,10 +78,6 @@ export default {
       inset 0px 2px 3px rgba(0, 0, 0, 0.5);
   }
 
-  &[isLoading="true"] {
-    padding-right: calc(var(--gap-double) * 2);
-  }
-
   &[disabled] {
     cursor: not-allowed;
     background: linear-gradient(180deg, #4f5254 0%, #393b3a 97.3%);
@@ -86,7 +93,9 @@ export default {
     display: block;
     width: var(--size);
     height: var(--size);
-    animation: rotating 1s linear infinite;
+    &--rotate{
+      animation: rotating 1s linear infinite;
+    }
   }
 }
 

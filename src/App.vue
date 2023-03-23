@@ -64,7 +64,7 @@ export default {
 
 .app {
   &__exchange-form {
-    margin-block-end: calc(var(--gap-double) * 2);
+    margin-block-end: calc(var(--gap-double) * 4);
   }
   &__reload-btn {
     position: relative;

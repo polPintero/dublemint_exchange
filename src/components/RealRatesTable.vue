@@ -2,6 +2,11 @@
   <form @submit.prevent class="real-rate">
     <fieldset class="real-rate__choice">
       <legend>Live Rate</legend>
+      <button-comp label="sdfsfd" class="real-rate__add-btn">
+        <template v-slot:after>
+          <IconComp name="PlusIconComp" class="dropdown__chevron"></IconComp>
+        </template>
+      </button-comp>
       <table class="real-rate__table">
         <tbody>
           <tr>
@@ -42,9 +47,18 @@
 <script>
 import { enumCurrencies } from '@/currency'
 import { splitArrOnSmallArr } from '@/utils'
+import ButtonComp from '@/components/ButtonComp.vue'
+
+import IconComp, { PlusIconComp } from '@/components/IconsVue'
 
 export default {
   name: 'RealRatesTable',
+  components: {
+    ButtonComp,
+    IconComp,
+    /* eslint-disable vue/no-unused-components */
+    PlusIconComp
+  },
   data () {
     return {
       currencies: this.$store.state.currencies,
@@ -78,6 +92,7 @@ export default {
 
 <style lang="scss">
 .real-rate {
+  position: relative;
   display: grid;
   grid-template-rows: 1fr max-content;
   width: 100%;
@@ -128,7 +143,9 @@ export default {
   &__table {
     width: 100%;
     td {
-      max-width: 120px;
+      --size: 120px;
+      max-width: var(--size);
+      width: var(--size);
     }
     &__cell {
       padding: var(--gap);
@@ -156,6 +173,15 @@ export default {
           text-shadow: 0px 0px 8px #50caff;
         }
       }
+    }
+  }
+
+  &__add-btn {
+    &.btn__wrap {
+      position: absolute;
+      width: max-content;
+      top: -25px;
+      right: 0;
     }
   }
 }
