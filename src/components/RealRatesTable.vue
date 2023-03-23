@@ -25,6 +25,7 @@
                 <span
                   class="real-rate__table__cell__rate"
                   :title="item.getCrossRateToCurrency(choicedCurrency) || '-'"
+                  :up="item.checkRateUp(choicedCurrency)"
                   >{{
                     item.getCrossRateToCurrency(choicedCurrency) || '-'
                   }}</span
@@ -142,6 +143,18 @@ export default {
 
         text-overflow: ellipsis;
         overflow: hidden;
+        &[up='true'] {
+          color: #eeffab;
+          text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+        }
+        &[up='false'] {
+          color: tomato;
+          text-shadow: 0px 0px 8px tomato;
+        }
+        &[up='null'] {
+          color: #50caff;
+          text-shadow: 0px 0px 8px #50caff;
+        }
       }
     }
   }

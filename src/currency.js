@@ -2,15 +2,31 @@ class Currency {
   constructor (name) {
     this.name = name
     this.toUSD = 0
+    this.oldPrice = null
   }
 
   setRateToUSD (rate) {
+    this.oldPrice = this.toUSD
     this.toUSD = rate
   }
 
   getCrossRateToCurrency (cur) {
     if (!(cur instanceof Currency) || !cur.toUSD || !this.toUSD) return 0
-    return (cur.toUSD / this.toUSD).toFixed(2)
+    return Number(this.calculateCrossRate(cur.toUSD, this.toUSD).toFixed(2))
+  }
+
+  checkRateUp (cur) {
+    if (!(cur instanceof Currency) || !cur.oldPrice || !this.oldPrice) {
+      return null
+    }
+    const oldRate = this.calculateCrossRate(cur.oldPrice, this.oldPrice)
+    const nowRate = this.getCrossRateToCurrency(cur)
+    if (nowRate === oldRate) return null
+    return oldRate < nowRate
+  }
+
+  calculateCrossRate (base, target) {
+    return base / target
   }
 }
 export const enumCurrencies = {
