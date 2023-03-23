@@ -61,7 +61,7 @@ export default {
       const first = this.currencies[this.firstCurrencySymbol]
       if (!target) return '-'
       const crossRate = first.getCrossRateToCurrency(target)
-      return crossRate ? (crossRate * this.amount).toFixed(4) : '-'
+      return crossRate ? (crossRate * this.amount).toFixed(2) : '-'
     }
   },
   methods: {

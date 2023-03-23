@@ -10,7 +10,7 @@ class Currency {
 
   getCrossRateToCurrency (cur) {
     if (!(cur instanceof Currency) || !cur.toUSD || !this.toUSD) return 0
-    return (cur.toUSD / this.toUSD).toFixed(4)
+    return (cur.toUSD / this.toUSD).toFixed(2)
   }
 }
 export const enumCurrencies = {
