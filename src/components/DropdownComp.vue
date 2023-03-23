@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown" @click.stop="toggleVisible">
+  <div class="dropdown" @click="toggleVisible">
     <div class="dropdown__wrap-btn">
       <IconComp name="ChevronIconComp" class="dropdown__chevron"></IconComp>
       <button class="dropdown__btn">{{ modelValue || placeholder }}</button>
@@ -66,9 +66,11 @@ export default {
   methods: {
     toggleVisible () {
       this.visible = !this.visible
-      this.visible
-        ? document.addEventListener('click', this.toggleVisible)
-        : document.removeEventListener('click', this.toggleVisible)
+      setTimeout(() => {
+        this.visible
+          ? document.addEventListener('click', this.toggleVisible)
+          : document.removeEventListener('click', this.toggleVisible)
+      }, 0)
     }
   }
 }
@@ -76,23 +78,26 @@ export default {
 
 <style lang="scss">
 .dropdown {
+  width: 100%;
   position: relative;
   display: inline-block;
   cursor: pointer;
 
   &__btn {
+    width: 100%;
     padding: var(--gap) var(--gap-double);
-    padding-right: calc(var(--gap-double) * 4);
+    padding-right: calc(var(--gap-double) * 2);
     font-size: 1rem;
     color: inherit;
+    text-align: left;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: none;
     background: linear-gradient(180deg, #414344 0%, #2b2d2e 100%);
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4),
       inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 
     &:focus {
-      border: 2px solid #e0f97d;
+      outline: 2px solid #e0f97d;
       filter: drop-shadow(0px 0px 4px #92d300);
     }
   }
@@ -109,6 +114,7 @@ export default {
     height: 1rem;
     transform: translateY(-50%);
     z-index: 1;
+    pointer-events: none;
   }
 
   &__content {

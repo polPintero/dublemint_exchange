@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent class="exchange-form">
     <div class="exchange-form__base">
-      <label class="exchange-form__base__item">
+      <label class="exchange-form__item">
         <dropdown-comp
           v-model="firstCurrencySymbol"
           :list="currencies"
@@ -9,12 +9,12 @@
         >
         </dropdown-comp>
       </label>
-      <label class="exchange-form__base__item">
-        <input-number v-model="amount"></input-number>
+      <label>
+        <input-number v-model="amount" :max-value="maxValue"></input-number>
       </label>
     </div>
-    <div>
-      <label>
+    <div class="exchange-form__target">
+      <label class="exchange-form__item">
         <dropdown-comp
           v-model="targetCurrency"
           :list="currencies"
@@ -24,13 +24,13 @@
         >
         </dropdown-comp>
       </label>
-      <span>{{ resultValue }}</span>
+      <span class="exchange-form__result">{{ resultValue }}</span>
     </div>
   </form>
 </template>
 
 <script>
-import {enumCurrencies} from '@/currency'
+import { enumCurrencies } from '@/currency'
 import DropdownComp from './DropdownComp.vue'
 import InputNumber from './InputNumber.vue'
 
@@ -40,7 +40,7 @@ export default {
     DropdownComp,
     InputNumber
   },
-  data() {
+  data () {
     return {
       enumCurrencies,
       currencies: this.$store.state.currencies,
@@ -51,15 +51,12 @@ export default {
     }
   },
   watch: {
-    firstCurrencySymbol(value) {
+    firstCurrencySymbol (value) {
       if (value === this.targetCurrency) this.targetCurrency = ''
-    },
-    amount(value, oldValue) {
-      if (value > this.maxValue) this.amount = oldValue
     }
   },
   computed: {
-    resultValue() {
+    resultValue () {
       const target = this.currencies[this.targetCurrency]
       const first = this.currencies[this.firstCurrencySymbol]
       if (!target) return '-'
@@ -68,7 +65,7 @@ export default {
     }
   },
   methods: {
-    conditionVisible(item) {
+    conditionVisible (item) {
       return item.name !== this.firstCurrencySymbol
     }
   }
@@ -79,7 +76,6 @@ export default {
 .exchange-form {
   padding: var(--gap-double);
   border-radius: var(--border-radius);
-  // box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
   background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
   box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.3),
     inset 0px 2px 3px rgba(0, 0, 0, 0.5);
@@ -88,6 +84,20 @@ export default {
     margin-block-end: var(--gap-double);
     display: flex;
     gap: var(--gap-double);
+  }
+
+  &__target {
+    display: flex;
+    gap: var(--gap-double);
+  }
+
+  &__item {
+    width: 120px;
+  }
+
+  &__result {
+    align-self: center;
+    margin-left: var(--gap);
   }
 }
 </style>
