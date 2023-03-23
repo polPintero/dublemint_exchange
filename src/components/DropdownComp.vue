@@ -2,7 +2,7 @@
   <div class="dropdown" @click.stop="toggleVisible">
     <div class="dropdown__wrap-btn">
       <IconComp name="ChevronIconComp" class="dropdown__chevron"></IconComp>
-      <button class="dropdown__btn">{{ modelValue }}</button>
+      <button class="dropdown__btn">{{ modelValue || placeholder }}</button>
     </div>
     <ul
       class="dropdown__content"
@@ -45,7 +45,11 @@ export default {
       required: true
     },
     modelValue: {
-      type: [String, Number, Boolean]
+      type: [String, Number]
+    },
+    placeholder: {
+      type: String,
+      default: ''
     },
     conditionVisible: {
       type: Function,
