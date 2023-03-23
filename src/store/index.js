@@ -11,7 +11,7 @@ export default createStore({
     setToUSDRate (state, payload) {
       const elem = state.currencies[payload.name]
       if (!elem) return
-      elem.toUSD = payload.value
+      elem.setRateToUSD(payload.value * Math.random())
     }
   },
   actions: {
