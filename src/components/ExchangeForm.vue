@@ -1,37 +1,28 @@
 <template>
-  <form @submit.prevent>
-    <div>
-      <label>
-        Currency
-        <select v-model="firstCurrencySymbol">
-          <option
-            v-for="item in currencies"
-            :value="item.name"
-            :key="item.name"
-          >
-            {{ item.name }}
-          </option>
-        </select>
+  <form @submit.prevent class="exchange-form">
+    <div class="exchange-form__base">
+      <label class="exchange-form__base__item">
+        <dropdown-comp
+          v-model="firstCurrencySymbol"
+          :list="currencies"
+          valueKey="name"
+        >
+        </dropdown-comp>
       </label>
-      <label>
-        Enter amount
-        <input type="number" :max="maxValue" min="1" v-model="amount" />
+      <label class="exchange-form__base__item">
+        <input-number v-model="amount"></input-number>
       </label>
     </div>
     <div>
       <label>
-        CurrencyTarget
-        <select v-model="targetCurrency">
-          <template v-for="item in currencies">
-            <option
-              v-if="item.name !== firstCurrencySymbol"
-              :value="item.name"
-              :key="item.name"
-            >
-              {{ item.name }}
-            </option>
-          </template>
-        </select>
+        <dropdown-comp
+          v-model="targetCurrency"
+          :list="currencies"
+          valueKey="name"
+          placeholder="Select"
+          :condition-visible="conditionVisible"
+        >
+        </dropdown-comp>
       </label>
       <span>{{ resultValue }}</span>
     </div>
@@ -39,41 +30,64 @@
 </template>
 
 <script>
-import { enumCurrencies } from '@/currency'
+import {enumCurrencies} from '@/currency'
+import DropdownComp from './DropdownComp.vue'
+import InputNumber from './InputNumber.vue'
 
 export default {
   name: 'ExchangeForm',
-  data () {
+  components: {
+    DropdownComp,
+    InputNumber
+  },
+  data() {
     return {
+      enumCurrencies,
       currencies: this.$store.state.currencies,
       firstCurrencySymbol: enumCurrencies.USD,
-      targetCurrency: '',
+      targetCurrency: enumCurrencies.EUR,
       amount: 1,
       maxValue: 10000
     }
   },
-  created () {
-    console.log(this.currencies)
-  },
-
   watch: {
-    firstCurrencySymbol (value) {
+    firstCurrencySymbol(value) {
       if (value === this.targetCurrency) this.targetCurrency = ''
     },
-    amount (value, oldValue) {
+    amount(value, oldValue) {
       if (value > this.maxValue) this.amount = oldValue
     }
   },
   computed: {
-    resultValue () {
+    resultValue() {
       const target = this.currencies[this.targetCurrency]
       const first = this.currencies[this.firstCurrencySymbol]
       if (!target) return '-'
       const crossRate = first.getCrossRateToCurrency(target)
       return crossRate ? (crossRate * this.amount).toFixed(4) : '-'
     }
+  },
+  methods: {
+    conditionVisible(item) {
+      return item.name !== this.firstCurrencySymbol
+    }
   }
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.exchange-form {
+  padding: var(--gap-double);
+  border-radius: var(--border-radius);
+  // box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+  background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.3),
+    inset 0px 2px 3px rgba(0, 0, 0, 0.5);
+
+  &__base {
+    margin-block-end: var(--gap-double);
+    display: flex;
+    gap: var(--gap-double);
+  }
+}
+</style>
