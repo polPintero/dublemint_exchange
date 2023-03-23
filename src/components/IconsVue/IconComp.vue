@@ -1,7 +1,5 @@
 <template>
-  <span class="the-icon">
-    <component :is="computedName" v-bind="$attrs" />
-  </span>
+  <component :is="computedName" v-bind="$attrs" />
 </template>
 
 <script>
