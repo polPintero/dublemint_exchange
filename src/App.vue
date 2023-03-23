@@ -1,5 +1,13 @@
 <template>
-  <button-comp class="app__reload-btn" label="reload rate"></button-comp>
+  <button-comp
+    class="app__reload-btn"
+    label="reload rate"
+    :is-loading="isLoading"
+    :disabled="isDisabled"
+    @click="reloadRates"
+    :data-seconds="seconds + 's'"
+    :delay="seconds > 0"
+  ></button-comp>
   <exchange-form class="app__exchange-form"></exchange-form>
   <real-rates-table></real-rates-table>
 </template>
@@ -11,7 +19,36 @@ import ButtonComp from './components/ButtonComp.vue'
 
 export default {
   name: 'App',
-  components: {ExchangeForm, RealRatesTable, ButtonComp}
+  components: { ExchangeForm, RealRatesTable, ButtonComp },
+  data () {
+    return {
+      isLoading: false,
+      isDisabled: false,
+      seconds: 0,
+      timeout: null
+    }
+  },
+  methods: {
+    async reloadRates () {
+      this.isLoading = true
+      this.isDisabled = true
+      await this.$store.dispatch('getData')
+      this.isLoading = false
+      this.seconds = 5
+      this.loop()
+    },
+    loop () {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        --this.seconds
+        if (this.seconds === 0) {
+          this.isDisabled = false
+          return
+        }
+        this.loop()
+      }, 1000)
+    }
+  }
 }
 </script>
 
@@ -30,10 +67,28 @@ export default {
     margin-block-end: calc(var(--gap-double) * 2);
   }
   &__reload-btn {
+    position: relative;
     align-self: flex-end;
     margin-block-end: var(--gap-double);
     text-transform: capitalize;
     font-size: 0.8rem;
+
+    &[delay='true'] {
+      .btn {
+        padding-right: calc(var(--gap-double) * 2);
+      }
+      &:after {
+        content: attr(data-seconds);
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        font-size: 1rem;
+        transform: translateY(-50%);
+        color: #eeffab;
+        text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+      }
+    }
   }
 }
 </style>
