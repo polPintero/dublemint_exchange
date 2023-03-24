@@ -1,12 +1,11 @@
 <template>
-  <div class="dropdown" @click="toggleVisible">
+  <div class="dropdown" @click="toggleVisible" :class="{'dropdown--show': visible}">
     <div class="dropdown__wrap-btn">
       <IconComp name="ChevronIconComp" class="dropdown__chevron"></IconComp>
       <button class="dropdown__btn">{{ modelValue || placeholder }}</button>
     </div>
     <ul
       class="dropdown__content"
-      :class="{'dropdown__content--show': visible}"
       @click="toggleVisible"
     >
       <template v-for="item in list" :key="item.name">
@@ -105,7 +104,7 @@ export default {
 
   .dropdown__chevron {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 50%;
     width: 1rem;
     height: 1rem;
@@ -138,9 +137,14 @@ export default {
         @include txtShadowTxtPrimary;
       }
     }
+  }
 
-    &--show {
+  &--show {
+    .dropdown__content {
       display: block;
+    }
+    .dropdown__chevron {
+      transform: translateY(-50%) rotate(180deg);
     }
   }
 }
