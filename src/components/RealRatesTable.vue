@@ -2,8 +2,12 @@
   <form @submit.prevent class="real-rate">
     <fieldset class="real-rate__choice">
       <legend>Live Rate</legend>
-      <button-comp label="sdfsfd" class="real-rate__add-btn">
-        <template v-slot:after>
+      <button-comp
+        label="Add"
+        class="real-rate__add-btn"
+        @click="showModal = !showModal"
+      >
+        <template #after>
           <IconComp name="PlusIconComp" class="dropdown__chevron"></IconComp>
         </template>
       </button-comp>
@@ -11,14 +15,15 @@
         <tbody>
           <tr>
             <td
+              class="real-rate__choice__item"
               v-for="name in avialableList"
               :key="name"
-              class="real-rate__choice__item"
             >
-              <label>
-                {{ name }}
-                <input type="radio" v-model="radioValue" :value="name" />
-              </label>
+              <InputRadio
+                v-model="radioValue"
+                :list="[name]"
+                name="live-rate"
+              ></InputRadio>
             </td>
           </tr>
           <tr v-for="(row, index) in showList" :key="index">
@@ -41,19 +46,38 @@
         </tbody>
       </table>
     </fieldset>
+    <modal-comp :show="showModal" @close="closeModalWindow">
+      <template #header>
+        <span>Select Extra Currency</span>
+      </template>
+      <template #body>
+        <InputRadio
+          v-model="extraCurrency"
+          :list="listExtraCurrency"
+          name="extra-currency"
+        ></InputRadio>
+      </template>
+      <template #footer>
+        <button-comp label="Ok" @click="closeModalWindow"></button-comp>
+      </template>
+    </modal-comp>
   </form>
 </template>
 
 <script>
-import { enumCurrencies } from '@/currency'
+import { enumCurrencies, defaultCurrencies } from '@/currency'
 import { splitArrOnSmallArr } from '@/utils'
 import ButtonComp from '@/components/ButtonComp.vue'
+import InputRadio from '@/components/InputRadio.vue'
+import ModalComp from '@/components/ModalComp.vue'
 
 import IconComp, { PlusIconComp } from '@/components/IconsVue'
 
 export default {
   name: 'RealRatesTable',
   components: {
+    InputRadio,
+    ModalComp,
     ButtonComp,
     IconComp,
     /* eslint-disable vue/no-unused-components */
@@ -61,6 +85,9 @@ export default {
   },
   data () {
     return {
+      enumCurrencies,
+      showModal: false,
+      extraCurrency: null,
       currencies: this.$store.state.currencies,
       avialableList: [
         enumCurrencies.USD,
@@ -72,19 +99,43 @@ export default {
     }
   },
   created () {
-    this.showList = [
-      this.currencies[enumCurrencies.USD],
-      this.currencies[enumCurrencies.EUR],
-      this.currencies[enumCurrencies.UAH],
-      this.currencies[enumCurrencies.BTC],
-      this.currencies[enumCurrencies.ETH]
-    ]
-    this.showList = splitArrOnSmallArr(this.showList)
+    this.init()
   },
   computed: {
     choicedCurrency () {
       if (!this.radioValue) return false
       return this.currencies[this.radioValue]
+    },
+    listExtraCurrency () {
+      const arr = this.showList.flat(Infinity)
+      return Object.values(enumCurrencies).filter(
+        item => !arr.find(el => el.name === item)
+      )
+    }
+  },
+  methods: {
+    closeModalWindow () {
+      this.showModal = false
+      if (!this.extraCurrency) return
+      this.saveExtraCurrency(this.extraCurrency)
+    },
+    saveExtraCurrency (ticker) {
+      if (!this.currencies[ticker]) return
+      const savedData = this.getSavedData()
+      savedData.push(ticker)
+      window.localStorage.setItem('extraCurrency', JSON.stringify(savedData))
+      this.init()
+    },
+    getSavedData () {
+      const savedData = JSON.parse(window.localStorage.getItem('extraCurrency'))
+      if (!savedData || !Array.isArray(savedData)) return []
+      return savedData
+    },
+    init () {
+      const savedData = this.getSavedData()
+      const arr = defaultCurrencies.concat(savedData)
+      this.showList = arr.map(i => this.currencies[i])
+      this.showList = splitArrOnSmallArr(this.showList)
     }
   }
 }
@@ -111,31 +162,13 @@ export default {
   &__choice {
     border: none;
     padding: 0;
+    padding-block-start: var(--gap);
 
     &__item {
       border-right: 3px solid #3d3c48;
       text-align: center;
       &:last-child {
         border: none;
-      }
-
-      label {
-        display: block;
-        width: 100%;
-        cursor: pointer;
-        input[type='radio'] {
-          position: relative;
-          &:checked:after {
-            position: absolute;
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #b7dd18 0%, #4b9800 100%);
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3),
-              inset 0px 3px 1px rgba(255, 255, 255, 0.7);
-            border-radius: 100%;
-          }
-        }
       }
     }
   }
@@ -183,6 +216,21 @@ export default {
       top: -25px;
       right: 0;
     }
+  }
+
+  .modal-header {
+    color: #eeffab;
+    text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+  }
+
+  .modal-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 </style>

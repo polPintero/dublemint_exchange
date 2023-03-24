@@ -40,6 +40,14 @@ export const enumCurrencies = {
   XRP: 'XRP'
 }
 
+export const defaultCurrencies = [
+  enumCurrencies.USD,
+  enumCurrencies.EUR,
+  enumCurrencies.UAH,
+  enumCurrencies.BTC,
+  enumCurrencies.ETH
+]
+
 const currencies = {}
 
 Object.keys(enumCurrencies).forEach((key) => {
