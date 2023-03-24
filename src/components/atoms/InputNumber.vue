@@ -43,9 +43,7 @@ export default {
     padding: var(--gap) var(--gap-double);
     font-size: 1rem;
     color: inherit;
-    background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
-    inset 0px 2px 3px rgba(0, 0, 0, 0.5);
+    @include blockShadowPrimary;
     border: none;
     border-radius: 10px;
     &:focus {

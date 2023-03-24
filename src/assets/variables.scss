@@ -1,0 +1,15 @@
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin txtShadowTxtPrimary {
+  color: var(--color-primary);
+  text-shadow: var(--shadow-text-primary);
+}
+
+@mixin blockShadowPrimary {
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-primary);
+}

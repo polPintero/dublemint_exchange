@@ -76,9 +76,7 @@ export default {
 .exchange-form {
   padding: var(--gap-double);
   border-radius: var(--border-radius);
-  background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
-  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.3),
-    inset 0px 2px 3px rgba(0, 0, 0, 0.5);
+  @include blockShadowPrimary;
 
   &__base {
     margin-block-end: var(--gap-double);

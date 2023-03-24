@@ -148,15 +148,12 @@ export default {
   grid-template-rows: 1fr max-content;
   width: 100%;
   padding: 0;
-  background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
-  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.3),
-    inset 0px 2px 3px rgba(0, 0, 0, 0.5);
+  @include blockShadowPrimary;
 
   legend {
     position: relative;
     transform: translateY(-10px);
-    color: #eeffab;
-    text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+    @include txtShadowTxtPrimary;
   }
 
   &__choice {
@@ -194,8 +191,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
         &[up='true'] {
-          color: #eeffab;
-          text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+          @include txtShadowTxtPrimary;
         }
         &[up='false'] {
           color: tomato;
@@ -219,8 +215,7 @@ export default {
   }
 
   .modal-header {
-    color: #eeffab;
-    text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+    @include txtShadowTxtPrimary;
   }
 
   .modal-body {

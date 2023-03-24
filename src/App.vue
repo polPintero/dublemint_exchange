@@ -85,8 +85,7 @@ export default {
         right: 10px;
         font-size: 1rem;
         transform: translateY(-50%);
-        color: #eeffab;
-        text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+        @include txtShadowTxtPrimary;
       }
     }
   }

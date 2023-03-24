@@ -134,17 +134,13 @@ export default {
       display: block;
       border-bottom: 1px solid #2a2b2d;
       &:hover {
-        background: linear-gradient(180deg, #2c2e2f 0%, #404142 100%);
-        box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
-          inset 0px 2px 3px rgba(0, 0, 0, 0.5);
+        @include blockShadowPrimary;
         span {
-          color: #eeffab;
-          text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+          @include txtShadowTxtPrimary;
         }
       }
       &--active {
-        color: #eeffab;
-        text-shadow: 0px 0px 8px rgba(146, 211, 0, 0.8);
+        @include txtShadowTxtPrimary;
       }
     }
 
