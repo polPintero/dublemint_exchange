@@ -38,8 +38,10 @@ export default {
 <style lang="scss">
 .input-number {
   border-radius: var(--border-radius);
-  width: max-content;
   input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
     padding: var(--gap) var(--gap-double);
     font-size: 1rem;
     color: inherit;

@@ -56,10 +56,9 @@ export default {
 @import './assets/main.scss';
 #app {
   min-height: 100vh;
-  display: flex;
+  padding: 0 var(--gap);
+  @include center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .app {
