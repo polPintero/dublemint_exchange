@@ -37,7 +37,7 @@
                   :title="item.getCrossRateToCurrency(choicedCurrency) || '-'"
                   :up="item.checkRateUp(choicedCurrency)"
                   >{{
-                    item.getCrossRateToCurrency(choicedCurrency) || '-'
+                    item.getCrossRateToCurrency(choicedCurrency).toFixed(2) || '-'
                   }}</span
                 >
               </div>

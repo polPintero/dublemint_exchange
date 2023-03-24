@@ -1,7 +1,7 @@
 class Currency {
   constructor (name) {
     this.name = name
-    this.toUSD = 0
+    this.toUSD = 1
     this.oldPrice = null
   }
 
@@ -12,7 +12,7 @@ class Currency {
 
   getCrossRateToCurrency (cur) {
     if (!(cur instanceof Currency) || !cur.toUSD || !this.toUSD) return 0
-    return Number(this.calculateCrossRate(cur.toUSD, this.toUSD).toFixed(2))
+    return Number(this.calculateCrossRate(cur.toUSD, this.toUSD))
   }
 
   checkRateUp (cur) {
