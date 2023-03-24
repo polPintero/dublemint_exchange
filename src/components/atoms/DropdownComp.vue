@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import IconComp, { ChevronIconComp } from '@/components/IconsVue'
+import IconComp, { ChevronIconComp } from '@/components/atoms/IconsVue'
 
 export default {
   name: 'DropdownComp',

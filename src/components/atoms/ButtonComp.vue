@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import IconComp, { LoaderIconComp } from '@/components/IconsVue'
+import IconComp, { LoaderIconComp } from '@/components/atoms/IconsVue'
 
 export default {
   name: 'ButtonComp',

@@ -31,8 +31,8 @@
 
 <script>
 import { enumCurrencies } from '@/currency'
-import DropdownComp from './DropdownComp.vue'
-import InputNumber from './InputNumber.vue'
+import DropdownComp from '@/components/atoms/DropdownComp.vue'
+import InputNumber from '@/components/atoms/InputNumber.vue'
 
 export default {
   name: 'ExchangeForm',

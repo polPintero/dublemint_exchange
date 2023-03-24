@@ -67,11 +67,11 @@
 <script>
 import { enumCurrencies, defaultCurrencies } from '@/currency'
 import { splitArrOnSmallArr } from '@/utils'
-import ButtonComp from '@/components/ButtonComp.vue'
-import InputRadio from '@/components/InputRadio.vue'
-import ModalComp from '@/components/ModalComp.vue'
+import ButtonComp from '@/components/atoms/ButtonComp.vue'
+import InputRadio from '@/components/atoms/InputRadio.vue'
+import ModalComp from '@/components/atoms/ModalComp.vue'
 
-import IconComp, { PlusIconComp } from '@/components/IconsVue'
+import IconComp, { PlusIconComp } from '@/components/atoms/IconsVue'
 
 export default {
   name: 'RealRatesTable',

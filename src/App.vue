@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import ExchangeForm from './components/ExchangeForm.vue'
-import RealRatesTable from './components/RealRatesTable.vue'
-import ButtonComp from './components/ButtonComp.vue'
+import ExchangeForm from '@/components/moleculs/ExchangeForm.vue'
+import RealRatesTable from '@/components/moleculs/RealRatesTable.vue'
+import ButtonComp from './components/atoms/ButtonComp.vue'
 
 export default {
   name: 'App',
