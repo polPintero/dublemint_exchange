@@ -92,13 +92,10 @@ export default {
     text-align: left;
     cursor: pointer;
     border: none;
-    background: linear-gradient(180deg, #414344 0%, #2b2d2e 100%);
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    @include actionsElemShadow;
 
     &:focus {
-      outline: 2px solid #e0f97d;
-      filter: drop-shadow(0px 0px 4px #92d300);
+      @include outlineActiveState;
     }
   }
 
@@ -123,9 +120,7 @@ export default {
     margin-block-start: 5px;
     padding-left: 0;
     right: 0;
-    background: linear-gradient(180deg, #4f5254 0%, #393b3a 97.3%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25),
-      inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    @include blockShadowSecondary;
     z-index: 999999;
 
     &__item {

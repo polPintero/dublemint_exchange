@@ -47,8 +47,7 @@ export default {
     border: none;
     border-radius: 10px;
     &:focus {
-      outline: 2px solid #e0f97d;
-      filter: drop-shadow(0px 0px 4px #92d300);
+      @include outlineActiveState;
     }
   }
 }
