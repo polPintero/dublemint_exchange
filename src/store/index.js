@@ -27,11 +27,6 @@ export default createStore({
       Object.keys(result).forEach((name) => {
         commit('setToUSDRate', { name, value: result[name] })
       })
-      // await new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve()
-      //   }, 4000)
-      // })
       return result
     }
   },
